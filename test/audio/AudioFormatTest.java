@@ -2,7 +2,7 @@ package audio;
 
 import org.junit.Test;
 
-public class AudioSystemTest {
+public class AudioFormatTest {
 
 	@Test
 	public void test() {
