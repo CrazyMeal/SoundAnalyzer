@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import audio.play.AudioPlayer;
+
 public class AudioPlayerTest {
 
 	@Test

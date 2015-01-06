@@ -2,6 +2,8 @@ package audio;
 
 import org.junit.Test;
 
+import audio.record.AudioRecorder;
+
 public class AudioRecorderTest {
 
 	@Test

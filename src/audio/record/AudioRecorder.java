@@ -1,4 +1,4 @@
-package audio;
+package audio.record;
 
 import java.io.File;
 import java.io.IOException;
