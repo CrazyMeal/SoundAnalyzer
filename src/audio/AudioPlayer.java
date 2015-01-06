@@ -1,5 +1,6 @@
 package audio;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ public class AudioPlayer {
 		}
 	}
 	
-	public int readAStream(AudioInputStream stream){
+	public byte[] readAStream(AudioInputStream stream){
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		
 		int totalFramesRead = 0;
 		int bytesPerFrame = stream.getFormat().getFrameSize();
 		if (bytesPerFrame == AudioSystem.NOT_SPECIFIED) {
@@ -36,14 +39,21 @@ public class AudioPlayer {
 				// Calculate the number of frames actually read.
 				numFramesRead = numBytesRead / bytesPerFrame;
 				totalFramesRead += numFramesRead;
+				outputStream.write(audioBytes);
 				// Here, do something useful with the audio data that's
 				// now in the audioBytes array...
 			}
-			//System.out.println(totalFramesRead);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return totalFramesRead;
+		byte[] finalDatas = outputStream.toByteArray();
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return finalDatas;
 	}
 	
 	public void createStreamFromFile(String path){
