@@ -1,4 +1,4 @@
-package audio;
+package audio.play;
 
 import org.junit.Test;
 

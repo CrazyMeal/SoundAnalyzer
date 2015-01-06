@@ -1,4 +1,4 @@
-package audio;
+package audio.record;
 
 import org.junit.Test;
 
