@@ -40,6 +40,12 @@ public class AudioPlayer {
 				numFramesRead = numBytesRead / bytesPerFrame;
 				totalFramesRead += numFramesRead;
 				outputStream.write(audioBytes);
+				String s =audioBytes.length + "[";
+				for(byte b : audioBytes){
+					s+=b+" ";
+				}
+				s+="]";
+				System.out.println(s);
 				// Here, do something useful with the audio data that's
 				// now in the audioBytes array...
 			}

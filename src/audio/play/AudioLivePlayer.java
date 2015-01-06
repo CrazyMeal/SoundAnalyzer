@@ -24,6 +24,7 @@ public class AudioLivePlayer {
 			targetLine.open();
 			
 			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			
 			Thread source = new Thread(){
 				@Override
 				public void run(){
@@ -33,6 +34,7 @@ public class AudioLivePlayer {
 					}
 				}
 			};
+			
 			Thread target = new Thread(){
 				@Override
 				public void run(){

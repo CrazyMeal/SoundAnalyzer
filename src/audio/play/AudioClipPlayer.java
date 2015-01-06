@@ -46,14 +46,20 @@ public class AudioClipPlayer {
 		try {
 			this.clip.open(this.audioStream);
 			this.clip.start();
+			int previousFramePosition = 0;
 			do {
-				Thread.sleep(10);
+				//Thread.sleep(10);
+				int actualFramePosition = this.clip.getFramePosition();
+				if(this.clip.getFramePosition() != previousFramePosition || actualFramePosition == 0){
+					//System.out.println(actualFramePosition);
+					previousFramePosition = actualFramePosition;
+				}
 			} while(this.clip.isActive());
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} /* catch (InterruptedException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} */catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
