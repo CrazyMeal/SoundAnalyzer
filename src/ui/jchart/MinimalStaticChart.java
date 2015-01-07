@@ -8,12 +8,14 @@ import javax.swing.JFrame;
 
 import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.ITrace2D;
+import info.monitorenter.gui.chart.ZoomableChart;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
 
 public class MinimalStaticChart {
 
 	public static void main(String[] args) {
-		Chart2D chart = new Chart2D();
+		ZoomableChart chart = new ZoomableChart();
+		
 		ITrace2D trace = new Trace2DSimple();
 		chart.addTrace(trace);
 		

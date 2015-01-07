@@ -1,6 +1,7 @@
 package audio.play;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -44,7 +45,17 @@ public class AudioLivePlayer {
 					while(true){
 						readBytes = targetLine.read(data, 0, data.length);
 						outputStream.write(data, 0, readBytes);
+						
+						ByteBuffer buf = ByteBuffer.wrap(data);
+					    short[] longs = new short[data.length / 8];
+					    for (int i = 0; i < longs.length; i++)
+					     {
+					        longs[i] = buf.getShort(i*2);
+					        System.out.println(longs[i]);
+
+					     }
 					}
+					
 				}
 			};
 			System.out.println("Start recording");

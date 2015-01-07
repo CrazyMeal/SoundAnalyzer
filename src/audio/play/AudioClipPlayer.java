@@ -44,6 +44,7 @@ public class AudioClipPlayer {
 	
 	public void play(){
 		try {
+			
 			this.clip.open(this.audioStream);
 			this.clip.start();
 			int previousFramePosition = 0;
