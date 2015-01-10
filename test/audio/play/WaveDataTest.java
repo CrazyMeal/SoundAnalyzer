@@ -6,6 +6,8 @@ import java.io.File;
 
 import org.junit.Test;
 
+import audio.analysis.WaveData;
+
 public class WaveDataTest {
 
 	@Test

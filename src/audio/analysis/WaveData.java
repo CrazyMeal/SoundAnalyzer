@@ -1,4 +1,4 @@
-package audio.play;
+package audio.analysis;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,9 +26,7 @@ public class WaveData {
      }  
      public int[] extractAmplitudeFromFile(File wavFile) {  
           try {  
-               // create file input stream  
-               FileInputStream fis = new FileInputStream(wavFile);  
-               // create bytearray from file  
+               FileInputStream fis = new FileInputStream(wavFile); 
                arrFile = new byte[(int) wavFile.length()];  
                fis.read(arrFile);  
           } catch (Exception e) {  
