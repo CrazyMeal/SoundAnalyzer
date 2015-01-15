@@ -1,41 +1,43 @@
 package ui.jchart;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.Random;
-
-import javax.swing.JFrame;
-
-import audio.play.WavePlayer;
-import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.ITrace2D;
 import info.monitorenter.gui.chart.ZoomableChart;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+
+import javax.swing.JFrame;
+
+import audio.analysis.AmplitudeDatas;
+import audio.play.WavePlayer;
+
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("src/res/sqr-10-2Hz.wav");
+		File file = new File("src/res/sound.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
-		int[] datas = player.analyze();
-		player.close();
 		
 		ZoomableChart chart = new ZoomableChart();
-		
 		ITrace2D trace = new Trace2DSimple();
 		chart.addTrace(trace);
-		int j = 0;
 		
-		for(int i : datas){
+		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
+		player.close();
+		
+		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
+		
+		int j = 0;
+		for(double i : datas.getNormalizedDatas()){
 			trace.addPoint(j,i);
 			j++;
 		}
 		
-		JFrame frame = new JFrame("MinimalStaticChart");
+		JFrame frame = new JFrame("Amplitude Chart");
 		frame.getContentPane().add(chart);
-		frame.setSize(400, 300);
+		frame.setSize(700, 300);
 		
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
@@ -43,6 +45,7 @@ public class CopyOfMinimalStaticChart {
 			}
 		});
 		frame.setVisible(true);
+		
 	}
 
 }
