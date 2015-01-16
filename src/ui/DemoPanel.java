@@ -56,7 +56,7 @@ implements ActionListener {
 	public DemoPanel() {
 		super(new BorderLayout());
 		
-		File file = new File("res/sound.wav");
+		File file = new File("res/Music.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
@@ -65,8 +65,10 @@ implements ActionListener {
 		int j = 0;
 		double[][] data = new double[2][datas.getDatas().length];
 		for(double i : datas.getNormalizedDatas()){
-			data[0][j] = j;
-			data[1][j] = i;
+			//if((j % 1000) == 0){
+				data[0][j] = j;
+				data[1][j] = i;
+			//}
 			j++;
 		}
 		dataset.addSeries("test", data);
