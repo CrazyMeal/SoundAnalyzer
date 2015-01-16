@@ -17,7 +17,7 @@ import audio.play.WavePlayer;
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("src/res/sqr-10-3Hz.wav");
+		File file = new File("res/sqr-10-3Hz.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		
