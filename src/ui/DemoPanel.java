@@ -9,12 +9,14 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -33,8 +35,12 @@ import org.jfree.data.time.Minute;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
+
+import audio.analysis.AmplitudeDatas;
+import audio.play.WavePlayer;
 
 public class DemoPanel extends JPanel
 implements ActionListener {
@@ -49,9 +55,26 @@ implements ActionListener {
 	 */
 	public DemoPanel() {
 		super(new BorderLayout());
-		addChart(createDataset("Random 1", 100.0, new Minute(), 200));
+		
+		File file = new File("res/sound.wav");
+		WavePlayer player = new WavePlayer(file);
+		player.setup();
+		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
+		player.close();
+		DefaultXYDataset dataset = new DefaultXYDataset();
+		int j = 0;
+		double[][] data = new double[2][datas.getDatas().length];
+		for(double i : datas.getNormalizedDatas()){
+			data[0][j] = j;
+			data[1][j] = i;
+			j++;
+		}
+		dataset.addSeries("test", data);
+		addChart(dataset);
 
 		JPanel dashboard = new JPanel(new BorderLayout());
+		JScrollPane scroll = new JScrollPane();
+		dashboard.add(scroll);
 		dashboard.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));  
 		JButton button = new JButton();
 		button.setText("ajouter Graph");
@@ -87,15 +110,11 @@ implements ActionListener {
 	 */
 	private JFreeChart createChart(XYDataset dataset) {
 
-		XYDataset dataset1 = createDataset(
-				"Random 1", 100.0, new Minute(), 200
-				);
-
 		JFreeChart chart1 = ChartFactory.createTimeSeriesChart(
 				"Translate Demo 1",
-				"Time of Day",
-				"Value",
-				dataset1,
+				"X",
+				"Y",
+				dataset,
 				true,
 				true,
 				false
