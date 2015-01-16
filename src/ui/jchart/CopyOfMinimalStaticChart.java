@@ -8,8 +8,11 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import javaFlacEncoder.FLAC_FileEncoder;
 
 import javax.swing.JFrame;
+
+import org.kc7bfi.jflac.FLACEncoder;
 
 import audio.analysis.AmplitudeDatas;
 import audio.play.WavePlayer;
@@ -17,7 +20,9 @@ import audio.play.WavePlayer;
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("res/sqr-10-3Hz.wav");
+		File file = new File("res/sqr-10-3Hz.flac");
+		File outputFile = new File("res/sqr-10-3Hz.flac");
+		
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		
@@ -36,6 +41,11 @@ public class CopyOfMinimalStaticChart {
 		frame.setVisible(true);
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
 		player.close();
+		
+		
+		FLAC_FileEncoder fe = new FLAC_FileEncoder();
+		fe.useThreads(true);
+		fe.encode(file, outputFile);
 		
 		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
 		
