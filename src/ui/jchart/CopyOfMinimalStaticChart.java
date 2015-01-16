@@ -12,8 +12,6 @@ import javaFlacEncoder.FLAC_FileEncoder;
 
 import javax.swing.JFrame;
 
-import org.kc7bfi.jflac.FLACEncoder;
-
 import audio.analysis.AmplitudeDatas;
 import audio.play.WavePlayer;
 

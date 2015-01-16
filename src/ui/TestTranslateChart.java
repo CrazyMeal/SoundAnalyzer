@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -55,7 +56,11 @@ public class TestTranslateChart extends ApplicationFrame {
      */
     public TestTranslateChart(String title) {
         super(title);
-        setContentPane(new DemoPanel());
+        DemoPanel dem = new DemoPanel();
+        JScrollPane scroll = new JScrollPane();
+        scroll.setViewportView(dem);
+        scroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        setContentPane(scroll);
     }
 
     /**
