@@ -4,6 +4,7 @@ import info.monitorenter.gui.chart.ITrace2D;
 import info.monitorenter.gui.chart.ZoomableChart;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -16,25 +17,13 @@ import audio.play.WavePlayer;
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("src/res/sound.wav");
+		File file = new File("src/res/sqr-10-3Hz.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		
 		ZoomableChart chart = new ZoomableChart();
 		ITrace2D trace = new Trace2DSimple();
 		chart.addTrace(trace);
-		
-		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
-		player.close();
-		
-		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
-		
-		int j = 0;
-		for(double i : datas.getNormalizedDatas()){
-			trace.addPoint(j,i);
-			j++;
-		}
-		
 		JFrame frame = new JFrame("Amplitude Chart");
 		frame.getContentPane().add(chart);
 		frame.setSize(700, 300);
@@ -45,7 +34,16 @@ public class CopyOfMinimalStaticChart {
 			}
 		});
 		frame.setVisible(true);
+		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
+		player.close();
 		
+		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
+		
+		int j = 0;
+		for(double i : datas.getNormalizedDatas()){
+			trace.addPoint(j,i);
+			j++;
+		}	
 	}
 
 }

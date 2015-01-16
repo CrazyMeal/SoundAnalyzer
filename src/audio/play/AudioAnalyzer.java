@@ -1,5 +1,11 @@
 package audio.play;
 
+import info.monitorenter.gui.chart.ITrace2D;
+import info.monitorenter.gui.chart.ZoomableChart;
+import info.monitorenter.gui.chart.traces.Trace2DSimple;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -9,6 +15,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.JFrame;
 
 public class AudioAnalyzer {
 	public AudioAnalyzer() {
@@ -23,7 +30,7 @@ public class AudioAnalyzer {
 		AudioInputStream audioInputStream = null;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
-					.getResource("/res/sqr-10-2Hz.wav"));
+					.getResource("/res/sqr-10-3Hz.wav"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -86,7 +93,9 @@ public class AudioAnalyzer {
 		}
 		//Determine the original Endian encoding format
 		boolean isBigEndian = audioFormat.isBigEndian();
-
+		// close the line
+		line.drain();
+		line.close();
 		//this array is the value of the signal at time i*h
 		int x[] = new int[n];
 
@@ -104,6 +113,10 @@ public class AudioAnalyzer {
 			else value = b1 + (b2 << 8);
 			x[i/2] = value;
 		}
+		ZoomableChart chart = new ZoomableChart();
+		ITrace2D trace = new Trace2DSimple();
+		chart.addTrace(trace);
+		
 		//do the DFT for each value of x sub j and store as f sub j
 		double f[] = new double[n/2];
 		for (int j = 0; j < n/2; j++) {
@@ -123,9 +136,22 @@ public class AudioAnalyzer {
 			double amplitude = 2 * f[j]/n;
 			double frequency = j * h / T * sample_rate;
 			System.out.println("frequency = "+frequency+", amp = "+amplitude);
+			
+				trace.addPoint(frequency, amplitude);
 		}
-		// close the line
-		line.drain();
-		line.close();
+		JFrame frame = new JFrame("Amplitude Chart");
+		frame.getContentPane().add(chart);
+		frame.setSize(700, 300);
+		
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		});
+		frame.setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		AudioAnalyzer aa = new AudioAnalyzer();
 	}
 }
