@@ -5,8 +5,10 @@ public class AmplitudeDatas {
 	private double[] normalizedDatas;
 	private int max, min;
 	private boolean normalized;
+	private long duration;
+	private int minutes, seconds;
 	
-	public AmplitudeDatas(int[] datas){
+	public AmplitudeDatas(int[] datas, long duration){
 		this.datas = datas;
 		
 		for(int data : this.datas){
@@ -18,6 +20,9 @@ public class AmplitudeDatas {
 		}
 		this.normalizedDatas = new double[this.datas.length];
 		this.normalized = false;
+		this.duration = duration;
+		this.minutes = (int) Math.round(this.duration * 0.0167);
+		this.seconds = (int) (((this.duration * 0.0167) - this.minutes) * 60);
 	}
 	
 	public double[] getNormalizedDatas(){
@@ -27,15 +32,24 @@ public class AmplitudeDatas {
 					this.normalizedDatas[index] = 0;
 				else{
 					if(this.datas[index] > 0)
-						this.normalizedDatas[index] = ((float)datas[index]) / this.max;
+						this.normalizedDatas[index] = ((double)datas[index]) / this.max;
 					else{
-						this.normalizedDatas[index] = -((float)datas[index]) / this.min;
+						this.normalizedDatas[index] = -((double)datas[index]) / this.min;
 					}
 				}
 			}
 			this.normalized = true;
 		}
 		return this.normalizedDatas;
+	}
+	public int getMinutes(){
+		return this.minutes;
+	}
+	public int getSeconds(){
+		return this.seconds;
+	}
+	public long getDuration(){
+		return this.duration;
 	}
 	public int[] getDatas(){
 		return this.datas;

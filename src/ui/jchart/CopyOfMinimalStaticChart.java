@@ -37,7 +37,7 @@ public class CopyOfMinimalStaticChart {
 			}
 		});
 		frame.setVisible(true);
-		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
+		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
 		player.close();
 		
 		
@@ -46,7 +46,7 @@ public class CopyOfMinimalStaticChart {
 		fe.encode(file, outputFile);
 		
 		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
-		
+		System.out.println("duration> " + datas.getMinutes() + "min " + datas.getSeconds() + "s");
 		int j = 0;
 		for(double i : datas.getNormalizedDatas()){
 			trace.addPoint(j,i);

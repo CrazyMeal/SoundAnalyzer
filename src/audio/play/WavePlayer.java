@@ -19,7 +19,8 @@ public class WavePlayer {
 	private AudioInputStream ais;
 	private ByteArrayInputStream bais;
 	private AudioFormat format;
-
+	private long duration;
+	
 	public WavePlayer(File file) {
 		this.file = file;
 	}
@@ -36,6 +37,8 @@ public class WavePlayer {
 			this.format = this.ais.getFormat();
 			this.byteBuffer = new byte[(int) (this.ais.getFrameLength() * this.format.getFrameSize())];
 			
+			long durationMsec = (long) ((this.ais.getFrameLength() * 1000) / this.ais.getFormat().getFrameRate());
+			this.duration = (long) (durationMsec / 1000.0);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -101,5 +104,9 @@ public class WavePlayer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public long getDuration(){
+		return this.duration;
 	}
 }

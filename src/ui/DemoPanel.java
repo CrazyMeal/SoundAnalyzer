@@ -59,7 +59,7 @@ implements ActionListener {
 		File file = new File("res/Music.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
-		AmplitudeDatas datas = new AmplitudeDatas(player.analyze());
+		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
 		player.close();
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
