@@ -18,7 +18,7 @@ import audio.play.WavePlayer;
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("res/Music.wav");
+		File file = new File("res/sound.wav");
 		File outputFile = new File("res/sqr-10-3Hz.flac");
 		
 		WavePlayer player = new WavePlayer(file);
@@ -37,16 +37,21 @@ public class CopyOfMinimalStaticChart {
 			}
 		});
 		frame.setVisible(true);
+		
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
 		player.close();
 		
-		
+		/*
 		FLAC_FileEncoder fe = new FLAC_FileEncoder();
 		fe.useThreads(true);
 		fe.encode(file, outputFile);
-		
+		*/
+		System.out.println("frameRate> " + player.getFrameRate());
+		System.out.println("frameSize> " + player.getFrameSize());
+		System.out.println("bytesPerSeconds> " + player.getBytesPerSeconds());
 		System.out.println("min> " + datas.getMin() + " max> " + datas.getMax());
 		System.out.println("duration> " + datas.getMinutes() + "min " + datas.getSeconds() + "s");
+
 		int j = 0;
 		for(double i : datas.getNormalizedDatas()){
 			trace.addPoint(j,i);

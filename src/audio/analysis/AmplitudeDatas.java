@@ -5,10 +5,10 @@ public class AmplitudeDatas {
 	private double[] normalizedDatas;
 	private int max, min;
 	private boolean normalized;
-	private long duration;
+	private double duration;
 	private int minutes, seconds;
 	
-	public AmplitudeDatas(int[] datas, long duration){
+	public AmplitudeDatas(int[] datas, double duration){
 		this.datas = datas;
 		
 		for(int data : this.datas){
@@ -48,7 +48,7 @@ public class AmplitudeDatas {
 	public int getSeconds(){
 		return this.seconds;
 	}
-	public long getDuration(){
+	public double getDuration(){
 		return this.duration;
 	}
 	public int[] getDatas(){

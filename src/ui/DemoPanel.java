@@ -2,25 +2,18 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -56,19 +49,21 @@ implements ActionListener {
 	public DemoPanel() {
 		super(new BorderLayout());
 		
-		File file = new File("res/Music.wav");
+		// Partie analyse données
+		File file = new File("res/sound.wav");
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
 		player.close();
+		System.out.println("duration> " + datas.getMinutes() + "min " + datas.getSeconds() + "s");
+		// Fin analyse
+		
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
 		double[][] data = new double[2][datas.getDatas().length];
 		for(double i : datas.getNormalizedDatas()){
-			//if((j % 1000) == 0){
 				data[0][j] = j;
 				data[1][j] = i;
-			//}
 			j++;
 		}
 		dataset.addSeries("test", data);
@@ -112,15 +107,7 @@ implements ActionListener {
 	 */
 	private JFreeChart createChart(XYDataset dataset) {
 
-		JFreeChart chart1 = ChartFactory.createTimeSeriesChart(
-				"Translate Demo 1",
-				"X",
-				"Y",
-				dataset,
-				true,
-				true,
-				false
-				);
+		JFreeChart chart1 = ChartFactory.createTimeSeriesChart("Translate Demo 1","X","Y",dataset,true,true,false);
 
 		chart1.setBackgroundPaint(Color.white);
 		XYPlot plot = chart1.getXYPlot();
@@ -134,7 +121,7 @@ implements ActionListener {
 		plot.setDomainCrosshairLockedOnData(false);
 		plot.setRangeCrosshairVisible(false);
 		XYItemRenderer renderer = plot.getRenderer();
-		renderer.setPaint(Color.black);
+		renderer.setSeriesPaint(0, Color.black);
 		// fix the range
 		DateAxis axis = (DateAxis) plot.getDomainAxis();
 		Range range = DatasetUtilities.findDomainBounds(dataset);
@@ -153,8 +140,7 @@ implements ActionListener {
 	 *
 	 * @return The dataset.
 	 */
-	private XYDataset createDataset(String name, double base,
-			RegularTimePeriod start, int count) {
+	private XYDataset createDataset(String name, double base, RegularTimePeriod start, int count) {
 
 		this.series = new TimeSeries(name, start.getClass());
 		RegularTimePeriod period = start;
