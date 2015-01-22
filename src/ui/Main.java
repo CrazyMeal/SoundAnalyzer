@@ -3,10 +3,14 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
@@ -33,6 +37,22 @@ public class Main extends ApplicationFrame {
         
         JButton buttonOpen = new JButton();
         buttonOpen.setText("Open");
+        buttonOpen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			    		"WAV & FLAC Sounds", "wav", "flac");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(getRootPane());
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       addChart(DatasetUtils.loadFile("res/sound.wav"));
+			    	System.out.println("You chose to open this file: " +
+			            chooser.getSelectedFile().getName());
+			    }
+			}
+		});
+        
         JButton buttonRecord = new JButton();
         buttonRecord.setText("Record");
         
@@ -53,7 +73,7 @@ public class Main extends ApplicationFrame {
     public static void main(String[] args) {
 
     	Main demo = new Main("Translate Demo 1");
-        demo.setPreferredSize(new Dimension(600, 540));
+        demo.setPreferredSize(new Dimension(700, 540));
         
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
