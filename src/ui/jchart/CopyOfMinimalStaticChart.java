@@ -18,7 +18,7 @@ import audio.play.WavePlayer;
 public class CopyOfMinimalStaticChart {
 
 	public static void main(String[] args) {
-		File file = new File("res/sound.wav");
+		File file = new File("res/Music.wav");
 		File outputFile = new File("res/sqr-10-3Hz.flac");
 		
 		WavePlayer player = new WavePlayer(file);

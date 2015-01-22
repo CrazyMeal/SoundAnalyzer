@@ -47,7 +47,7 @@ implements ActionListener {
 
 	private TimeSeries series;
 
-	private ArrayList<ChartWrapper> charts = new ArrayList<ChartWrapper>();
+	private ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
 
 
 	public MainPanel() {
@@ -66,38 +66,24 @@ implements ActionListener {
 	}
 
 	public void addChart(XYDataset dataset) {
-		ChartWrapper wrapper = new ChartWrapper();
-		wrapper.chart = createChart(dataset);
-		wrapper.chartPanel = new ChartPanel(wrapper.chart);
-		wrapper.chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
-		wrapper.chartPanel.setDomainZoomable(true);
-		wrapper.chartPanel.setRangeZoomable(true);
+		JFreeChart chart = createChart(dataset);
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
+		chartPanel.setDomainZoomable(true);
+		chartPanel.setRangeZoomable(true);
 		Border border = BorderFactory.createCompoundBorder(
 				BorderFactory.createEmptyBorder(4, 4, 4, 4),
 				BorderFactory.createEtchedBorder()
 				);
-		wrapper.chartPanel.setBorder(border);
-		charts.add(wrapper);
+		chartPanel.setBorder(border);
+		charts.add(chartPanel);
 		this.setLayout(new GridLayout(charts.size()+1, 1));
-		add(wrapper.chartPanel, charts.size()-1);
+		add(chartPanel, charts.size()-1);
 	}
 
-	/**
-	 * Creates the demo chart.
-	 *
-	 * @return The chart.
-	 */
 	private JFreeChart createChart(XYDataset dataset) {
 
-		JFreeChart chart1 = ChartFactory.createTimeSeriesChart(
-				"New Chart",
-				"X",
-				"Y",
-				dataset,
-				true,
-				true,
-				false
-				);
+		JFreeChart chart1 = ChartFactory.createTimeSeriesChart("New Chart","X","Y",dataset,true,true,false);
 
 		chart1.setBackgroundPaint(Color.white);
 		XYPlot plot = chart1.getXYPlot();
@@ -111,7 +97,7 @@ implements ActionListener {
 		plot.setDomainCrosshairLockedOnData(false);
 		plot.setRangeCrosshairVisible(false);
 		XYItemRenderer renderer = plot.getRenderer();
-		renderer.setPaint(Color.black);
+		renderer.setSeriesPaint(0, Color.black);
 		// fix the range
 		DateAxis axis = (DateAxis) plot.getDomainAxis();
 		Range range = DatasetUtilities.findDomainBounds(dataset);

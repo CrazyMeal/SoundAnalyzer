@@ -1,14 +1,6 @@
 package ui;
-/* -------------------
-* TranslateDemo1.java
-* -------------------
-* (C) Copyright 2006, by Object Refinery Limited.
-*
-*/
-
 
 import java.awt.Dimension;
-import java.io.File;
 
 import javax.swing.JScrollPane;
 
@@ -17,38 +9,21 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 import dataset.DatasetUtils;
-import audio.analysis.AmplitudeDatas;
-import audio.play.WavePlayer;
 
-/**
-* A demo that uses a "wrapper" dataset that provides a translation of the
-* underlying dataset.
-*/
 public class Main extends ApplicationFrame {
 
-    MainPanel demo;
+    MainPanel mainPanel;
    
-    /**
-     * A demonstration application showing how to control a crosshair using an
-     * external UI component.
-     *
-     * @param title  the frame title.
-     */
     public Main(String title) {
         super(title);
-        demo = new MainPanel();
+        mainPanel = new MainPanel();
         JScrollPane scroll = new JScrollPane();
-        scroll.setViewportView(demo);
+        scroll.setViewportView(mainPanel);
         scroll.setSize(new Dimension(600, 300));
         scroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         setContentPane(scroll);
     }
 
-    /**
-     * Starting point for the demonstration application.
-     *
-     * @param args  ignored.
-     */
     public static void main(String[] args) {
 
     	Main demo = new Main("Translate Demo 1");
@@ -63,8 +38,8 @@ public class Main extends ApplicationFrame {
     }
     
     public void addChart(DefaultXYDataset dataset){
-    	demo.addChart(dataset);
-    	demo.revalidate();
+    	mainPanel.addChart(dataset);
+    	mainPanel.revalidate();
     }
     
     
