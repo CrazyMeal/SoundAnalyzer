@@ -2,6 +2,7 @@ package dataset;
 
 import java.io.File;
 
+import org.jfree.data.xy.DefaultIntervalXYDataset;
 import org.jfree.data.xy.DefaultXYDataset;
 
 import audio.analysis.AmplitudeDatas;
@@ -31,7 +32,6 @@ public class DatasetUtils {
 		
 		
 		double[][] data = new double[2][(int) (nbPoint)];
-		System.out.println(step);
 		for(double i = 0; i < datas.getDatas().length; i+=step){
 			if(j<nbPoint){
 				data[0][j] = ((double)j);
@@ -45,9 +45,10 @@ public class DatasetUtils {
     }
     
     public static DefaultXYDataset loadFile(File file){
-		WavePlayer player = new WavePlayer(file);
+    	WavePlayer player = new WavePlayer(file);
 		player.setup();
 		int[] datas = player.analyze();
+		double interval = 1/player.getFrameRate()/2;
 		player.close();
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
@@ -57,10 +58,9 @@ public class DatasetUtils {
 		
 		
 		double[][] data = new double[2][(int) (nbPoint)];
-		System.out.println(step);
 		for(double i = 0; i < datas.length; i+=step){
 			if(j<nbPoint){
-				data[0][j] = ((double)j);
+				data[0][j] = interval*i;
 				data[1][j] = datas[(int)i];
 				j++;
 			}

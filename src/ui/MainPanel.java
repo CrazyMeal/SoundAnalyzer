@@ -26,6 +26,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -83,10 +84,19 @@ implements ActionListener {
 
 	private JFreeChart createChart(XYDataset dataset) {
 
-		JFreeChart chart1 = ChartFactory.createTimeSeriesChart("New Chart","X","Y",dataset,true,true,false);
+		JFreeChart chart = ChartFactory.createXYLineChart(
+	            "Sound", // chart title
+	            "Time", // domain axis label
+	            "Amplitude",
+	            dataset,  // initial series
+	            PlotOrientation.VERTICAL, // orientation
+	            true, // include legend
+	            true, // tooltips?
+	            false // URLs?
+	            );
 
-		chart1.setBackgroundPaint(Color.white);
-		XYPlot plot = chart1.getXYPlot();
+		chart.setBackgroundPaint(Color.white);
+		XYPlot plot = chart.getXYPlot();
 		plot.setOrientation(PlotOrientation.VERTICAL);
 		plot.setBackgroundPaint(Color.lightGray);
 		plot.setDomainGridlinePaint(Color.white);
@@ -99,10 +109,10 @@ implements ActionListener {
 		XYItemRenderer renderer = plot.getRenderer();
 		renderer.setSeriesPaint(0, Color.black);
 		// fix the range
-		DateAxis axis = (DateAxis) plot.getDomainAxis();
+		NumberAxis axis = (NumberAxis) plot.getDomainAxis();
 		Range range = DatasetUtilities.findDomainBounds(dataset);
 		axis.setRange(range);
-		return chart1;
+		return chart;
 	}
 
 

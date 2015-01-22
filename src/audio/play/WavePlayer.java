@@ -63,7 +63,6 @@ public class WavePlayer {
 			
 				if (format.getSampleSizeInBits() == 16) {
 					int nlengthInSamples = this.byteBuffer.length / 2;
-					System.out.println("taille calculée> " + nlengthInSamples + "|| taille buffer> " + this.byteBuffer.length);
 					audioData = new int[nlengthInSamples];
 					if (format.isBigEndian()) {
 						for (int i = 0; i < nlengthInSamples; i++) {
