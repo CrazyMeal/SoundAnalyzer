@@ -57,8 +57,8 @@ public class Main extends ApplicationFrame {
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-        demo.addChart(DatasetUtils.loadFile("res/sqr-10-2Hz.wav"));
-        demo.addChart(DatasetUtils.loadFileAndNormalize("res/sqr-10-2Hz.wav"));
+        demo.addChart(DatasetUtils.loadFile("res/Music.wav"));
+        demo.addChart(DatasetUtils.loadFileAndNormalize("res/Music.wav"));
 
     }
     

@@ -16,13 +16,19 @@ public class DatasetUtils {
 		player.close();
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
-		double[][] data = new double[2][datas.length>10000?10000:datas.length];
-		double step = (datas.length/10000)<1?1:datas.length/10000.0;
+		
+		double nbPoint = 100000;
+		double step = datas.length/nbPoint;
+		
+		
+		double[][] data = new double[2][(int) (nbPoint)];
 		System.out.println(step);
-		for(int i = 0; i < datas.length/10000; i++){
-			data[0][j] = ((double)j);
-			data[1][j] = datas[(int)i];
-			j++;
+		for(double i = 0; i < datas.length; i+=step){
+			if(j<nbPoint){
+				data[0][j] = ((double)j);
+				data[1][j] = datas[(int)i];
+				j++;
+			}
 		}
 		dataset.addSeries("test", data);
 		System.out.println("dataset created");
@@ -30,18 +36,26 @@ public class DatasetUtils {
     }
     
     public static DefaultXYDataset loadFileAndNormalize(String name){
-    	File file = new File(name);
+		File file = new File(name);
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
 		player.close();
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
-		double[][] data = new double[2][datas.getDatas().length];
-		for(double i : datas.getNormalizedDatas()){
-			data[0][j] = ((double)j);
-			data[1][j] = i;
-			j++;
+		
+		double nbPoint = 100000;
+		double step = datas.getDatas().length/nbPoint;
+		
+		
+		double[][] data = new double[2][(int) (nbPoint)];
+		System.out.println(step);
+		for(double i = 0; i < datas.getDatas().length; i+=step){
+			if(j<nbPoint){
+				data[0][j] = ((double)j);
+				data[1][j] = datas.getNormalizedDatas()[(int)i];
+				j++;
+			}
 		}
 		dataset.addSeries("test", data);
 		System.out.println("normalized dataset created");
