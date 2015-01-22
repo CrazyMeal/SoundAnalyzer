@@ -2,18 +2,25 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -35,7 +42,7 @@ import org.jfree.ui.RectangleInsets;
 import audio.analysis.AmplitudeDatas;
 import audio.play.WavePlayer;
 
-public class DemoPanel extends JPanel
+public class MainPanel extends JPanel
 implements ActionListener {
 
 	private TimeSeries series;
@@ -43,36 +50,11 @@ implements ActionListener {
 	private ArrayList<ChartWrapper> charts = new ArrayList<ChartWrapper>();
 
 
-	/**
-	 * Creates a new demo panel.
-	 */
-	public DemoPanel() {
+	public MainPanel() {
 		super(new BorderLayout());
-		
-		// Partie analyse données
-		File file = new File("res/sound.wav");
-		WavePlayer player = new WavePlayer(file);
-		player.setup();
-		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
-		player.close();
-		System.out.println("duration> " + datas.getMinutes() + "min " + datas.getSeconds() + "s");
-		// Fin analyse
-		
-		DefaultXYDataset dataset = new DefaultXYDataset();
-		int j = 0;
-		double[][] data = new double[2][datas.getDatas().length];
-		for(double i : datas.getNormalizedDatas()){
-				data[0][j] = j;
-				data[1][j] = i;
-			j++;
-		}
-		dataset.addSeries("test", data);
-		addChart(dataset);
-
 		JPanel dashboard = new JPanel(new BorderLayout());
-		JScrollPane scroll = new JScrollPane();
-		dashboard.add(scroll);
 		dashboard.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));  
+		dashboard.setMinimumSize(new Dimension(600, 300));
 		JButton button = new JButton();
 		button.setText("ajouter Graph");
 		button.setMaximumSize(new Dimension(100, 50));
@@ -107,7 +89,15 @@ implements ActionListener {
 	 */
 	private JFreeChart createChart(XYDataset dataset) {
 
-		JFreeChart chart1 = ChartFactory.createTimeSeriesChart("Translate Demo 1","X","Y",dataset,true,true,false);
+		JFreeChart chart1 = ChartFactory.createTimeSeriesChart(
+				"New Chart",
+				"X",
+				"Y",
+				dataset,
+				true,
+				true,
+				false
+				);
 
 		chart1.setBackgroundPaint(Color.white);
 		XYPlot plot = chart1.getXYPlot();
@@ -121,7 +111,7 @@ implements ActionListener {
 		plot.setDomainCrosshairLockedOnData(false);
 		plot.setRangeCrosshairVisible(false);
 		XYItemRenderer renderer = plot.getRenderer();
-		renderer.setSeriesPaint(0, Color.black);
+		renderer.setPaint(Color.black);
 		// fix the range
 		DateAxis axis = (DateAxis) plot.getDomainAxis();
 		Range range = DatasetUtilities.findDomainBounds(dataset);
@@ -130,36 +120,8 @@ implements ActionListener {
 	}
 
 
-	/**
-	 * Creates a sample dataset.
-	 *
-	 * @param name  the dataset name.
-	 * @param base  the starting value.
-	 * @param start  the starting period.
-	 * @param count  the number of values to generate.
-	 *
-	 * @return The dataset.
-	 */
-	private XYDataset createDataset(String name, double base, RegularTimePeriod start, int count) {
-
-		this.series = new TimeSeries(name, start.getClass());
-		RegularTimePeriod period = start;
-		double value = base;
-		for (int i = 0; i < count; i++) {
-			this.series.add(period, value);   
-			period = period.next();
-			value = value * (1 + (Math.random() - 0.495) / 10.0);
-		}
-
-		TimeSeriesCollection tsc = new TimeSeriesCollection();
-		tsc.addSeries(this.series);
-		return new TranslatingXYDataset(tsc);
-
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		addChart(createDataset("Random 1", 100.0, new Minute(), 200));
 		this.revalidate();
 	}
 	
