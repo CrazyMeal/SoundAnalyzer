@@ -64,7 +64,7 @@ public class Main extends ApplicationFrame {
     
     public void addChart(DefaultXYDataset dataset){
     	demo.addChart(dataset);
-    	demo.invalidate();
+    	demo.revalidate();
     }
     
     
