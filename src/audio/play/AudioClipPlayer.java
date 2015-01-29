@@ -12,7 +12,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class AudioClipPlayer {
+public class AudioClipPlayer{
 	private Mixer mixer;
 	private Clip clip;
 	private AudioInputStream audioStream;

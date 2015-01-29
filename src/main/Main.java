@@ -11,7 +11,7 @@ import dataset.DatasetUtils;
 public class Main {
 
 	public static void main(String[] args) {
-
+		
     	SoundApplication demo = new SoundApplication("Plateforme Java - SoundAnalyzer");
         demo.setPreferredSize(new Dimension(1000, 600));
         
@@ -19,6 +19,5 @@ public class Main {
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
         demo.addChart(new File("res/sound.wav"), DatasetUtils.loadFile("res/sound.wav"));
-
     }
 }

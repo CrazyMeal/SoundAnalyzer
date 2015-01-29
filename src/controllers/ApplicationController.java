@@ -1,24 +1,25 @@
 package controllers;
 
-import java.util.ArrayList;
-
-import audio.play.AudioClipPlayer;
+import java.util.HashMap;
 
 public class ApplicationController {
-	private ArrayList<AudioClipPlayer> playerList;
+	private HashMap<Integer, Thread> players;
 	
 	public ApplicationController(){
-		this.playerList = new ArrayList<AudioClipPlayer>();
+		this.players = new HashMap<Integer, Thread>();
 	}
 
-	public ArrayList<AudioClipPlayer> getPlayerList() {
-		return playerList;
+	public HashMap<Integer, Thread> getPlayers() {
+		return players;
 	}
 	
-	public boolean addPlayer(AudioClipPlayer player){
-		return this.playerList.add(player);
+	public int addPlayer(Thread player){
+		int playerId = this.players.size();
+		this.players.put(playerId, player);
+		return playerId;
 	}
-	public boolean removePlayer(AudioClipPlayer player){
-		return this.playerList.remove(player);
+	
+	public void startPlayer(int playerId){
+		this.players.get(playerId).start();
 	}
 }

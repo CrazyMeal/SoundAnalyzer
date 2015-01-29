@@ -61,7 +61,7 @@ public class SoundApplication extends ApplicationFrame {
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(getRootPane());
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       addChart(chooser.getSelectedFile(),DatasetUtils.loadFile(chooser.getSelectedFile()));
+			       addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile()));
 			       System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 			    }
 			}

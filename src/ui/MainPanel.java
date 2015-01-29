@@ -29,7 +29,8 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
-import audio.play.AudioClipPlayer;
+import ui.actionListeners.PlayActionListener;
+import audio.play.AudioLinePlayer;
 import controllers.ApplicationController;
 
 public class MainPanel extends JPanel implements ActionListener {
@@ -100,9 +101,6 @@ public class MainPanel extends JPanel implements ActionListener {
 	}
 	
 	private JPanel createControlsPanel(File file){
-		AudioClipPlayer player = new AudioClipPlayer();
-		player.setup(file);
-		this.appController.addPlayer(player);
 		
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
@@ -110,18 +108,13 @@ public class MainPanel extends JPanel implements ActionListener {
 		
 		JButton buttonPlay = new JButton("Play");
 		buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonPlay.addActionListener(new PlayActionListener(player));
+		buttonPlay.addActionListener(new PlayActionListener(file, this.appController));
+		
 		controlsPanel.add(buttonPlay);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton buttonPause = new JButton("Pause");
 		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonPause.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// PAUSE SOUND
-			}
-		});
 		controlsPanel.add(buttonPause);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
