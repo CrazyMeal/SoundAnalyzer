@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -35,13 +36,6 @@ public class MainPanel extends JPanel implements ActionListener {
 
 	public MainPanel() {
 		super(new BorderLayout());
-		/*
-		JPanel dashboard = new JPanel(new BorderLayout());
-		dashboard.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));  
-		dashboard.setMinimumSize(new Dimension(600, 300));
-		dashboard.setBackground(Color.black);
-		add(dashboard, BorderLayout.SOUTH);
-		*/
 	}
 
 	public void addChart(String fileName, XYDataset dataset) {
@@ -51,42 +45,21 @@ public class MainPanel extends JPanel implements ActionListener {
 		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 		chartPanel.setDomainZoomable(true);
 		chartPanel.setRangeZoomable(true);
-		Border border = BorderFactory.createCompoundBorder(
-				BorderFactory.createEmptyBorder(4, 4, 4, 4),
-				BorderFactory.createEtchedBorder()
-				);
+		Border border = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createEtchedBorder());
 		chartPanel.setBorder(border);
+
 		
-		JPanel controlsPanel = new JPanel();
-		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
-		
-		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-		JButton buttonPlay = new JButton("Play");
-		buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
-		controlsPanel.add(buttonPlay);
-		
-		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-		JButton buttonPause = new JButton("Pause");
-		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
-		controlsPanel.add(buttonPause);
-		
-		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-		JButton buttonFlacExport = new JButton("Export");
-		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		controlsPanel.add(buttonFlacExport);
-		
-		
-		
-		newPanel.add(controlsPanel, BorderLayout.WEST);
 		
 		charts.add(chartPanel);
 		if(charts.size() == 1)
 			this.setLayout(new GridLayout(charts.size()+1, 1));
 		else
 			this.setLayout(new GridLayout(charts.size(), 1));
+		
+		newPanel.add(this.createControlsPanel(new File(fileName)), BorderLayout.WEST);
 		newPanel.add(chartPanel);
 		
-		add(newPanel, charts.size()-1);
+		this.add(newPanel, charts.size()-1);
 	}
 
 	private JFreeChart createChart(String fileName, XYDataset dataset) {
@@ -120,6 +93,28 @@ public class MainPanel extends JPanel implements ActionListener {
 		Range range = DatasetUtilities.findDomainBounds(dataset);
 		axis.setRange(range);
 		return chart;
+	}
+	
+	private JPanel createControlsPanel(File file){
+		JPanel controlsPanel = new JPanel();
+		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
+		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonPlay = new JButton("Play");
+		buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonPlay);
+		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonPause = new JButton("Pause");
+		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonPause);
+		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonFlacExport = new JButton("Export");
+		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonFlacExport);
+		
+		return controlsPanel;
 	}
 
 

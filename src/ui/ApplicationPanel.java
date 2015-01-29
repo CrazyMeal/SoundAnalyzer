@@ -20,11 +20,11 @@ import org.jfree.ui.RefineryUtilities;
 
 import dataset.DatasetUtils;
 
-public class Main extends ApplicationFrame {
+public class ApplicationPanel extends ApplicationFrame {
 
     MainPanel chartingPanel;
    
-    public Main(String title) {
+    public ApplicationPanel(String title) {
         super(title);
         this.chartingPanel = new MainPanel();
         
@@ -71,19 +71,4 @@ public class Main extends ApplicationFrame {
     	this.chartingPanel.addChart(fileName, dataset);
     	this.chartingPanel.revalidate();
     }
-    
-    public static void main(String[] args) {
-
-    	Main demo = new Main("Plateforme Java - SoundAnalyzer");
-        demo.setPreferredSize(new Dimension(1000, 600));
-        
-        demo.pack();
-        RefineryUtilities.centerFrameOnScreen(demo);
-        demo.setVisible(true);
-        demo.addChart("sound.wav", DatasetUtils.loadFile("res/sound.wav"));
-        //demo.addChart(DatasetUtils.loadFileAndNormalize("res/Music.wav"));
-
-    }
-    
-    
 }

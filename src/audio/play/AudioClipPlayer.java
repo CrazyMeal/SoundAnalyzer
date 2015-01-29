@@ -1,5 +1,6 @@
 package audio.play;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -18,11 +19,6 @@ public class AudioClipPlayer {
 	
 	public AudioClipPlayer(){
 		Mixer.Info[] infos = AudioSystem.getMixerInfo();
-		/*
-		for(Mixer.Info info : infos){
-			System.out.println(info.getName() + " --- " + info.getDescription());
-		}
-		*/
 		this.mixer = AudioSystem.getMixer(infos[0]);
 	}
 	
@@ -32,6 +28,20 @@ public class AudioClipPlayer {
 			this.clip = (Clip) this.mixer.getLine(info);
 			URL soundUrl =  this.getClass().getResource("/res/Music.wav");
 			this.audioStream = AudioSystem.getAudioInputStream(soundUrl);
+			
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+	public void setup(File file){
+		DataLine.Info info = new DataLine.Info(Clip.class, null);
+		try {
+			this.clip = (Clip) this.mixer.getLine(info);
+			this.audioStream = AudioSystem.getAudioInputStream(file);
 			
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
