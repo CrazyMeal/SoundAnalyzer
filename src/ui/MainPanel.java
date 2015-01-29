@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,15 +25,11 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
-public class MainPanel extends JPanel
-implements ActionListener {
-
-	private TimeSeries series;
-
+public class MainPanel extends JPanel implements ActionListener {
+	private static final long serialVersionUID = -3329086471570271813L;
 	private ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
 
 
@@ -75,13 +70,20 @@ implements ActionListener {
 		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
 		controlsPanel.add(buttonPause);
 		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonFlacExport = new JButton("Export");
+		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonFlacExport);
+		
 		
 		
 		newPanel.add(controlsPanel, BorderLayout.WEST);
 		
 		charts.add(chartPanel);
-		
-		this.setLayout(new GridLayout(charts.size()+1, 1));
+		if(charts.size() == 1)
+			this.setLayout(new GridLayout(charts.size()+1, 1));
+		else
+			this.setLayout(new GridLayout(charts.size(), 1));
 		newPanel.add(chartPanel);
 		
 		add(newPanel, charts.size()-1);
