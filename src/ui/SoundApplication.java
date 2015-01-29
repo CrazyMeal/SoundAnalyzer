@@ -20,11 +20,11 @@ import org.jfree.ui.RefineryUtilities;
 
 import dataset.DatasetUtils;
 
-public class ApplicationPanel extends ApplicationFrame {
+public class SoundApplication extends ApplicationFrame {
 
     MainPanel chartingPanel;
    
-    public ApplicationPanel(String title) {
+    public SoundApplication(String title) {
         super(title);
         this.chartingPanel = new MainPanel();
         
