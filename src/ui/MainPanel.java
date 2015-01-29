@@ -29,19 +29,23 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
+import audio.play.AudioClipPlayer;
+import controllers.ApplicationController;
+
 public class MainPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -3329086471570271813L;
 	private ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
+	private ApplicationController appController;
 
-
-	public MainPanel() {
+	public MainPanel(ApplicationController appController) {
 		super(new BorderLayout());
+		this.appController = appController;
 	}
 
-	public void addChart(String fileName, XYDataset dataset) {
+	public void addChart(File file, XYDataset dataset) {
 		JPanel newPanel = new JPanel(new BorderLayout());
 		
-		ChartPanel chartPanel = new ChartPanel(createChart(fileName, dataset));
+		ChartPanel chartPanel = new ChartPanel(createChart(file.getName(), dataset));
 		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 		chartPanel.setDomainZoomable(true);
 		chartPanel.setRangeZoomable(true);
@@ -56,7 +60,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		else
 			this.setLayout(new GridLayout(charts.size(), 1));
 		
-		newPanel.add(this.createControlsPanel(new File(fileName)), BorderLayout.WEST);
+		newPanel.add(this.createControlsPanel(file), BorderLayout.WEST);
 		newPanel.add(chartPanel);
 		
 		this.add(newPanel, charts.size()-1);
@@ -96,22 +100,39 @@ public class MainPanel extends JPanel implements ActionListener {
 	}
 	
 	private JPanel createControlsPanel(File file){
+		AudioClipPlayer player = new AudioClipPlayer();
+		player.setup(file);
+		this.appController.addPlayer(player);
+		
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
-		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		
 		JButton buttonPlay = new JButton("Play");
 		buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonPlay.addActionListener(new PlayActionListener(player));
 		controlsPanel.add(buttonPlay);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton buttonPause = new JButton("Pause");
 		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonPause.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// PAUSE SOUND
+			}
+		});
 		controlsPanel.add(buttonPause);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton buttonFlacExport = new JButton("Export");
 		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonFlacExport.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Export sound to flac
+			}
+		});
 		controlsPanel.add(buttonFlacExport);
 		
 		return controlsPanel;

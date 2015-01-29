@@ -1,5 +1,6 @@
 package main;
 import java.awt.Dimension;
+import java.io.File;
 
 import org.jfree.ui.RefineryUtilities;
 
@@ -17,7 +18,7 @@ public class Main {
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-        demo.addChart("sound.wav", DatasetUtils.loadFile("res/sound.wav"));
+        demo.addChart(new File("res/sound.wav"), DatasetUtils.loadFile("res/sound.wav"));
 
     }
 }

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -12,30 +13,43 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.jfree.data.xy.DefaultIntervalXYDataset;
-import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
+import controllers.ApplicationController;
 import dataset.DatasetUtils;
 
 public class SoundApplication extends ApplicationFrame {
-
-    MainPanel chartingPanel;
-   
+	private static final long serialVersionUID = -4667093160682321127L;
+	private MainPanel chartingPanel;
+	private ApplicationController appController;
+	
     public SoundApplication(String title) {
         super(title);
-        this.chartingPanel = new MainPanel();
+        this.appController = new ApplicationController();
         
+        JPanel container = new JPanel(new BorderLayout());
+        container.add(this.createMenuPanel(), BorderLayout.PAGE_START);
+        container.add(this.createScrollPanel());
         
-        JScrollPane scroll = new JScrollPane();
-        scroll.setViewportView(chartingPanel);
+        this.setContentPane(container);
+    }
+    
+    
+    
+    public JScrollPane createScrollPanel(){
+    	this.chartingPanel = new MainPanel(this.appController);
+    	
+    	JScrollPane scroll = new JScrollPane();
+        scroll.setViewportView(this.chartingPanel);
         scroll.setSize(new Dimension(600, 300));
         scroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         
-        JPanel container = new JPanel(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        return scroll;
+    }
+    
+    public JPanel createMenuPanel(){
+    	JPanel menuPanel = new JPanel(new FlowLayout());
         
         JButton buttonOpen = new JButton();
         buttonOpen.setText("Open");
@@ -43,14 +57,12 @@ public class SoundApplication extends ApplicationFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			    		"WAV & FLAC Sounds", "wav", "flac");
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter("WAV & FLAC Sounds", "wav", "flac");
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(getRootPane());
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       addChart(chooser.getSelectedFile().getName(),DatasetUtils.loadFile(chooser.getSelectedFile()));
-			    	System.out.println("You chose to open this file: " +
-			            chooser.getSelectedFile().getName());
+			       addChart(chooser.getSelectedFile(),DatasetUtils.loadFile(chooser.getSelectedFile()));
+			       System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 			    }
 			}
 		});
@@ -58,17 +70,14 @@ public class SoundApplication extends ApplicationFrame {
         JButton buttonRecord = new JButton();
         buttonRecord.setText("Record");
         
-        buttonPanel.add(buttonOpen);
-        buttonPanel.add(buttonRecord);
+        menuPanel.add(buttonOpen);
+        menuPanel.add(buttonRecord);
         
-        container.add(buttonPanel, BorderLayout.PAGE_START);
-        container.add(scroll);
-        
-        setContentPane(container);
+        return menuPanel;
     }
     
-    public void addChart(String fileName, DefaultXYDataset dataset){
-    	this.chartingPanel.addChart(fileName, dataset);
+    public void addChart(File file, DefaultXYDataset dataset){
+    	this.chartingPanel.addChart(file, dataset);
     	this.chartingPanel.revalidate();
     }
 }
