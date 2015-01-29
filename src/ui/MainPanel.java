@@ -2,13 +2,18 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -35,16 +40,19 @@ implements ActionListener {
 
 	public MainPanel() {
 		super(new BorderLayout());
+		/*
 		JPanel dashboard = new JPanel(new BorderLayout());
 		dashboard.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));  
 		dashboard.setMinimumSize(new Dimension(600, 300));
-		
+		dashboard.setBackground(Color.black);
 		add(dashboard, BorderLayout.SOUTH);
+		*/
 	}
 
 	public void addChart(String fileName, XYDataset dataset) {
-		JFreeChart chart = createChart(fileName, dataset);
-		ChartPanel chartPanel = new ChartPanel(chart);
+		JPanel newPanel = new JPanel(new BorderLayout());
+		
+		ChartPanel chartPanel = new ChartPanel(createChart(fileName, dataset));
 		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 		chartPanel.setDomainZoomable(true);
 		chartPanel.setRangeZoomable(true);
@@ -53,9 +61,30 @@ implements ActionListener {
 				BorderFactory.createEtchedBorder()
 				);
 		chartPanel.setBorder(border);
+		
+		JPanel controlsPanel = new JPanel();
+		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
+		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonPlay = new JButton("Play");
+		buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonPlay);
+		
+		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonPause = new JButton("Pause");
+		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
+		controlsPanel.add(buttonPause);
+		
+		
+		
+		newPanel.add(controlsPanel, BorderLayout.WEST);
+		
 		charts.add(chartPanel);
+		
 		this.setLayout(new GridLayout(charts.size()+1, 1));
-		add(chartPanel, charts.size()-1);
+		newPanel.add(chartPanel);
+		
+		add(newPanel, charts.size()-1);
 	}
 
 	private JFreeChart createChart(String fileName, XYDataset dataset) {
@@ -66,7 +95,7 @@ implements ActionListener {
 	            "Amplitude",
 	            dataset,  // initial series
 	            PlotOrientation.VERTICAL, // orientation
-	            true, // include legend
+	            false, // include legend
 	            true, // tooltips?
 	            false // URLs?
 	            );
