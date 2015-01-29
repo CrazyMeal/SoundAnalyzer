@@ -2,46 +2,28 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultButtonModel;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.time.Minute;
-import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
-
-import audio.analysis.AmplitudeDatas;
-import audio.play.WavePlayer;
 
 public class MainPanel extends JPanel
 implements ActionListener {
@@ -56,18 +38,12 @@ implements ActionListener {
 		JPanel dashboard = new JPanel(new BorderLayout());
 		dashboard.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));  
 		dashboard.setMinimumSize(new Dimension(600, 300));
-		JButton button = new JButton();
-		button.setText("ajouter Graph");
-		button.setMaximumSize(new Dimension(100, 50));
-		button.addActionListener(this);
-		JPanel buttonPannel = new JPanel();
-		buttonPannel.add(button);
-		dashboard.add(buttonPannel);
+		
 		add(dashboard, BorderLayout.SOUTH);
 	}
 
-	public void addChart(XYDataset dataset) {
-		JFreeChart chart = createChart(dataset);
+	public void addChart(String fileName, XYDataset dataset) {
+		JFreeChart chart = createChart(fileName, dataset);
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
 		chartPanel.setDomainZoomable(true);
@@ -82,10 +58,10 @@ implements ActionListener {
 		add(chartPanel, charts.size()-1);
 	}
 
-	private JFreeChart createChart(XYDataset dataset) {
+	private JFreeChart createChart(String fileName, XYDataset dataset) {
 
 		JFreeChart chart = ChartFactory.createXYLineChart(
-	            "Sound", // chart title
+	            fileName, // chart title
 	            "Time", // domain axis label
 	            "Amplitude",
 	            dataset,  // initial series

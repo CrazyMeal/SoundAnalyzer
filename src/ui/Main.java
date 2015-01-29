@@ -48,7 +48,7 @@ public class Main extends ApplicationFrame {
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(getRootPane());
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       addChart(DatasetUtils.loadFile(chooser.getSelectedFile()));
+			       addChart(chooser.getSelectedFile().getName(),DatasetUtils.loadFile(chooser.getSelectedFile()));
 			    	System.out.println("You chose to open this file: " +
 			            chooser.getSelectedFile().getName());
 			    }
@@ -67,20 +67,20 @@ public class Main extends ApplicationFrame {
         setContentPane(container);
     }
     
-    public void addChart(DefaultXYDataset dataset){
-    	this.chartingPanel.addChart(dataset);
+    public void addChart(String fileName, DefaultXYDataset dataset){
+    	this.chartingPanel.addChart(fileName, dataset);
     	this.chartingPanel.revalidate();
     }
     
     public static void main(String[] args) {
 
-    	Main demo = new Main("Translate Demo 1");
-        demo.setPreferredSize(new Dimension(700, 540));
+    	Main demo = new Main("Plateforme Java - SoundAnalyzer");
+        demo.setPreferredSize(new Dimension(1000, 600));
         
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-        demo.addChart(DatasetUtils.loadFile("res/sound.wav"));
+        demo.addChart("sound.wav", DatasetUtils.loadFile("res/sound.wav"));
         //demo.addChart(DatasetUtils.loadFileAndNormalize("res/Music.wav"));
 
     }
