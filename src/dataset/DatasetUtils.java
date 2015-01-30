@@ -23,6 +23,7 @@ public class DatasetUtils {
 		WavePlayer player = new WavePlayer(file);
 		player.setup();
 		AmplitudeDatas datas = new AmplitudeDatas(player.analyze(), player.getDuration());
+		double interval = 1/player.getFrameRate()/2;
 		player.close();
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
@@ -34,7 +35,7 @@ public class DatasetUtils {
 		double[][] data = new double[2][(int) (nbPoint)];
 		for(double i = 0; i < datas.getDatas().length; i+=step){
 			if(j<nbPoint){
-				data[0][j] = ((double)j);
+				data[0][j] = interval*i;
 				data[1][j] = datas.getNormalizedDatas()[(int)i];
 				j++;
 			}
