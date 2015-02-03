@@ -2,7 +2,7 @@ package audio.play;
 
 import org.junit.Test;
 
-import audio.play.AudioLivePlayer;
+import audio.old.AudioLivePlayer;
 
 public class AudioLivePlayerTest {
 

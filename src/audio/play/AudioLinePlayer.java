@@ -17,9 +17,11 @@ public class AudioLinePlayer implements Runnable{
 	private AudioFormat format; 
 	private SourceDataLine dataLine;
 	private int BUFFER_SIZE = 4096;
+	private boolean runningPlayer;
 	
 	public AudioLinePlayer(File file){
 		this.fileToPlay = file;
+		this.runningPlayer = false;
 	}
 	
 	public void setup(){
@@ -42,13 +44,14 @@ public class AudioLinePlayer implements Runnable{
 	
 	public void play(){
 		try {
+			this.runningPlayer = true;
 			this.dataLine.open(format);
 			this.dataLine.start();
 			
 			byte[] bytesBuffer = new byte[this.BUFFER_SIZE];
 			int bytesRead = -1;
 			 
-			while ((bytesRead = this.stream.read(bytesBuffer)) != -1) {
+			while (((bytesRead = this.stream.read(bytesBuffer)) != -1) && this.runningPlayer) {
 			    this.dataLine.write(bytesBuffer, 0, bytesRead);
 			}
 			
@@ -57,7 +60,8 @@ public class AudioLinePlayer implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			this.dataLine.drain();
+			System.out.println("Closing player");
+			this.dataLine.stop();
 			this.dataLine.close();
 			try {
 				this.stream.close();
@@ -70,5 +74,11 @@ public class AudioLinePlayer implements Runnable{
 	@Override
 	public void run() {
 		this.play();
+	}
+	public boolean isRunning(){
+		return this.dataLine.isActive();
+	}
+	public void stopDataline(){
+		this.runningPlayer = false;
 	}
 }

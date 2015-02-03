@@ -20,7 +20,9 @@ public class PlayActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		AudioLinePlayer player = new AudioLinePlayer(file);
 		player.setup();
-		int threadId = this.appController.addPlayer(new Thread(player));
+		Thread t = new Thread(player);
+		t.start();
+		int threadId = this.appController.addPlayer(player);
 		this.appController.startPlayer(threadId);
 	}
 

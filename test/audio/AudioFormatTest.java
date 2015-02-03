@@ -2,7 +2,7 @@ package audio;
 
 import org.junit.Test;
 
-import audio.play.AudioFormatPlayer;
+import audio.old.AudioFormatPlayer;
 
 public class AudioFormatTest {
 
