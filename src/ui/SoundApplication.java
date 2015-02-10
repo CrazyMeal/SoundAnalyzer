@@ -71,7 +71,7 @@ public class SoundApplication extends ApplicationFrame {
         
         JButton buttonRecord = new JButton();
         buttonRecord.setText("Record");
-        buttonRecord.addActionListener(new RecordActionListener(getRootPane()));
+        buttonRecord.addActionListener(new RecordActionListener(this));
         
         menuPanel.add(buttonOpen);
         menuPanel.add(buttonRecord);

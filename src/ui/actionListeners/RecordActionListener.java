@@ -8,18 +8,21 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JRootPane;
 
+import ui.SoundApplication;
 import audio.play.AudioLinePlayer;
 import audio.record.AudioRecorder;
 import controllers.ApplicationController;
+import dataset.DatasetUtils;
 
 public class RecordActionListener implements ActionListener{
 
-	private JRootPane rootPane;
+	private SoundApplication app;
 	private boolean recording = false;
 	private AudioRecorder rec;
+	private String filePath;
 
-	public RecordActionListener(JRootPane rootPane) {
-		this.rootPane = rootPane;
+	public RecordActionListener(SoundApplication app) {
+		this.app = app;
 	}
 
 	@Override
@@ -28,10 +31,12 @@ public class RecordActionListener implements ActionListener{
 		if(recording){
 			rec.stop();
 			((JButton)e.getSource()).setText("Record");
+			app.addChart(new File(filePath), DatasetUtils.loadFile(filePath));
 		}
 		else{
 			JFileChooser chooser = new JFileChooser();
-			chooser.showSaveDialog(rootPane);
+			chooser.showSaveDialog(app.getRootPane());
+			filePath = chooser.getSelectedFile().getPath();
 			rec = new AudioRecorder(chooser.getSelectedFile());
 			rec.setup();
 			rec.record();
