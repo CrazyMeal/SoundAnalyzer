@@ -35,7 +35,10 @@ public class RecordActionListener implements ActionListener{
 		}
 		else{
 			JFileChooser chooser = new JFileChooser();
-			chooser.showSaveDialog(app.getRootPane());
+			int returnVal = chooser.showSaveDialog(app.getRootPane());
+			if(returnVal != JFileChooser.APPROVE_OPTION)
+		    	return;
+
 			filePath = chooser.getSelectedFile().getPath();
 			rec = new AudioRecorder(chooser.getSelectedFile());
 			rec.setup();

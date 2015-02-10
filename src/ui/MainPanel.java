@@ -29,6 +29,7 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
+import ui.actionListeners.ExportActionListener;
 import ui.actionListeners.StopActionListener;
 import ui.actionListeners.PlayActionListener;
 import audio.play.AudioLinePlayer;
@@ -122,12 +123,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton buttonFlacExport = new JButton("Export");
 		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonFlacExport.addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Export sound to flac
-			}
-		});
+		buttonFlacExport.addActionListener(new ExportActionListener(file, this));
 		controlsPanel.add(buttonFlacExport);
 		
 		return controlsPanel;

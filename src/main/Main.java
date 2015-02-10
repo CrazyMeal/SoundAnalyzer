@@ -18,6 +18,6 @@ public class Main {
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-        demo.addChart(new File("res/sound.wav"), DatasetUtils.loadFile("res/sound.wav"));
+        demo.addChart(new File("res/sound.wav"), DatasetUtils.loadFileAndNormalize("res/sound.wav"));
     }
 }
