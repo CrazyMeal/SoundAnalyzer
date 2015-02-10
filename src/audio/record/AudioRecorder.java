@@ -54,11 +54,9 @@ public class AudioRecorder {
 			}
 		};
 		t.start();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	}
+	
+	public void stop(){
 		this.targetLine.stop();
 		this.targetLine.close();
 		System.out.println("Stop recording");
