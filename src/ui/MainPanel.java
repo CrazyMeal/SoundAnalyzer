@@ -29,6 +29,7 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
+import ui.actionListeners.StopActionListener;
 import ui.actionListeners.PlayActionListener;
 import audio.play.AudioLinePlayer;
 import controllers.ApplicationController;
@@ -113,9 +114,10 @@ public class MainPanel extends JPanel implements ActionListener {
 		controlsPanel.add(buttonPlay);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-		JButton buttonPause = new JButton("Pause");
-		buttonPause.setAlignmentX(Component.CENTER_ALIGNMENT);
-		controlsPanel.add(buttonPause);
+		JButton buttonStop = new JButton("Stop");
+		buttonStop.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonStop.addActionListener(new StopActionListener(this.appController));
+		controlsPanel.add(buttonStop);
 		
 		controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton buttonFlacExport = new JButton("Export");
