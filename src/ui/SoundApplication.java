@@ -16,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
 
+import audio.record.AudioRecorder;
 import controllers.ApplicationController;
 import dataset.DatasetUtils;
 
@@ -69,6 +70,17 @@ public class SoundApplication extends ApplicationFrame {
         
         JButton buttonRecord = new JButton();
         buttonRecord.setText("Record");
+        buttonRecord.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.showSaveDialog(getRootPane());
+				AudioRecorder rec = new AudioRecorder(chooser.getSelectedFile());
+				rec.setup();
+				rec.record();
+			}
+		});
         
         menuPanel.add(buttonOpen);
         menuPanel.add(buttonRecord);

@@ -14,9 +14,15 @@ import javax.sound.sampled.TargetDataLine;
 public class AudioRecorder {
 	private AudioFormat format;
 	private TargetDataLine targetLine;
+	private File audioFile;
 
 	public AudioRecorder() {
 		this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
+	}
+	
+	public AudioRecorder(File file){
+		this();
+		audioFile = file;
 	}
 
 	public void setup() {
@@ -37,7 +43,8 @@ public class AudioRecorder {
 			@Override
 			public void run() {
 				AudioInputStream audioStream = new AudioInputStream(targetLine);
-				File audioFile = new File("record.wav");
+				if(audioFile == null)
+					audioFile = new File("res/record.wav");
 				try {
 					AudioSystem.write(audioStream, AudioFileFormat.Type.WAVE,
 							audioFile);
