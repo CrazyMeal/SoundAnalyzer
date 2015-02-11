@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -15,6 +16,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.kc7bfi.jflac.FLACDecoder;
+import org.kc7bfi.jflac.apps.Decoder;
 
 import ui.actionListeners.RecordActionListener;
 import audio.record.AudioRecorder;
@@ -63,8 +66,19 @@ public class SoundApplication extends ApplicationFrame {
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(getRootPane());
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile()));
-			       System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+			    	if(chooser.getSelectedFile().getName().endsWith("flac")){
+			    		Decoder dec = new Decoder();
+			    		try {
+							dec.decode(chooser.getSelectedFile().getPath(), chooser.getSelectedFile().getPath().replace(".flac", ".wav"));
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			    		addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile().getPath().replace(".flac", ".wav")));
+			    	}
+			    	else if(chooser.getSelectedFile().getName().endsWith("wav")){
+			    		addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile()));
+			    	}
 			    }
 			}
 		});

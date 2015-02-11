@@ -29,6 +29,7 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
+import ui.actionListeners.CloseActionListener;
 import ui.actionListeners.ExportActionListener;
 import ui.actionListeners.StopActionListener;
 import ui.actionListeners.PlayActionListener;
@@ -37,7 +38,7 @@ import controllers.ApplicationController;
 
 public class MainPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -3329086471570271813L;
-	private ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
+	public ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
 	private ApplicationController appController;
 
 	public MainPanel(ApplicationController appController) {
@@ -63,7 +64,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		else
 			this.setLayout(new GridLayout(charts.size(), 1));
 		
-		newPanel.add(this.createControlsPanel(file), BorderLayout.WEST);
+		newPanel.add(this.createControlsPanel(file, chartPanel), BorderLayout.WEST);
 		newPanel.add(chartPanel);
 		
 		this.add(newPanel, charts.size()-1);
@@ -73,7 +74,7 @@ public class MainPanel extends JPanel implements ActionListener {
 
 		JFreeChart chart = ChartFactory.createXYLineChart(
 	            fileName, // chart title
-	            "Time", // domain axis label
+	            "Time (s)", // domain axis label
 	            "Amplitude",
 	            dataset,  // initial series
 	            PlotOrientation.VERTICAL, // orientation
@@ -102,7 +103,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		return chart;
 	}
 	
-	private JPanel createControlsPanel(File file){
+	private JPanel createControlsPanel(File file, ChartPanel chartPanel){
 		
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
@@ -125,6 +126,12 @@ public class MainPanel extends JPanel implements ActionListener {
 		buttonFlacExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonFlacExport.addActionListener(new ExportActionListener(file, this));
 		controlsPanel.add(buttonFlacExport);
+		
+		/*controlsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton buttonFlacClose = new JButton("Close");
+		buttonFlacClose.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonFlacClose.addActionListener(new CloseActionListener(chartPanel, this));
+		controlsPanel.add(buttonFlacClose);*/
 		
 		return controlsPanel;
 	}
