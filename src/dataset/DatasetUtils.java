@@ -40,6 +40,7 @@ public class DatasetUtils {
 				j++;
 			}
 		}
+		
 		dataset.addSeries("test", data);
 		System.out.println("normalized dataset created");
 		return dataset;

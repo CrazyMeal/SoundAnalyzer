@@ -1,5 +1,6 @@
 package audio.record;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -10,6 +11,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+
+import java.io.OutputStream;
 
 public class AudioRecorder {
 	private AudioFormat format;
@@ -48,6 +51,26 @@ public class AudioRecorder {
 				try {
 					AudioSystem.write(audioStream, AudioFileFormat.Type.WAVE,
 							audioFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
+	}
+	
+	public void record(OutputStream out){
+		System.out.println("Start recording");
+		this.targetLine.start();
+
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				AudioInputStream audioStream = new AudioInputStream(targetLine);
+				if(audioFile == null)
+					audioFile = new File("res/record.wav");
+				try {
+					AudioSystem.write(audioStream, AudioFileFormat.Type.WAVE, out);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

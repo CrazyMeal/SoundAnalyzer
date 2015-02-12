@@ -2,7 +2,9 @@ package ui.actionListeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -20,6 +22,7 @@ public class RecordActionListener implements ActionListener{
 	private boolean recording = false;
 	private AudioRecorder rec;
 	private String filePath;
+	private OutputStream out;
 
 	public RecordActionListener(SoundApplication app) {
 		this.app = app;
@@ -31,7 +34,7 @@ public class RecordActionListener implements ActionListener{
 		if(recording){
 			rec.stop();
 			((JButton)e.getSource()).setText("Record");
-			app.addChart(new File(filePath), DatasetUtils.loadFile(filePath));
+			app.addChart(new File(filePath), DatasetUtils.loadFileAndNormalize(filePath));
 		}
 		else{
 			JFileChooser chooser = new JFileChooser();
@@ -42,7 +45,8 @@ public class RecordActionListener implements ActionListener{
 			filePath = chooser.getSelectedFile().getPath();
 			rec = new AudioRecorder(chooser.getSelectedFile());
 			rec.setup();
-			rec.record();
+			out = new ByteArrayOutputStream();
+			rec.record(out);
 			((JButton)e.getSource()).setText("Stop recording");
 		}
 		recording = !recording;

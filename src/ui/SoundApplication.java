@@ -19,6 +19,7 @@ import org.jfree.ui.ApplicationFrame;
 import org.kc7bfi.jflac.FLACDecoder;
 import org.kc7bfi.jflac.apps.Decoder;
 
+import ui.actionListeners.OpenActionListener;
 import ui.actionListeners.RecordActionListener;
 import audio.record.AudioRecorder;
 import controllers.ApplicationController;
@@ -58,30 +59,7 @@ public class SoundApplication extends ApplicationFrame {
         
         JButton buttonOpen = new JButton();
         buttonOpen.setText("Open");
-        buttonOpen.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter("WAV & FLAC Sounds", "wav", "flac");
-			    chooser.setFileFilter(filter);
-			    int returnVal = chooser.showOpenDialog(getRootPane());
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			    	if(chooser.getSelectedFile().getName().endsWith("flac")){
-			    		Decoder dec = new Decoder();
-			    		try {
-							dec.decode(chooser.getSelectedFile().getPath(), chooser.getSelectedFile().getPath().replace(".flac", ".wav"));
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			    		addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile().getPath().replace(".flac", ".wav")));
-			    	}
-			    	else if(chooser.getSelectedFile().getName().endsWith("wav")){
-			    		addChart(chooser.getSelectedFile(),DatasetUtils.loadFileAndNormalize(chooser.getSelectedFile()));
-			    	}
-			    }
-			}
-		});
+        buttonOpen.addActionListener(new OpenActionListener(this));
         
         JButton buttonRecord = new JButton();
         buttonRecord.setText("Record");

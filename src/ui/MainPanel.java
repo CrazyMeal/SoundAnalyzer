@@ -68,6 +68,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		newPanel.add(chartPanel);
 		
 		this.add(newPanel, charts.size()-1);
+		
 	}
 
 	private JFreeChart createChart(String fileName, XYDataset dataset) {
