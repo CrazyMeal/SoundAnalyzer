@@ -59,26 +59,6 @@ public class AudioRecorder {
 		t.start();
 	}
 	
-	public void record(OutputStream out){
-		System.out.println("Start recording");
-		this.targetLine.start();
-
-		Thread t = new Thread() {
-			@Override
-			public void run() {
-				AudioInputStream audioStream = new AudioInputStream(targetLine);
-				if(audioFile == null)
-					audioFile = new File("res/record.wav");
-				try {
-					AudioSystem.write(audioStream, AudioFileFormat.Type.WAVE, out);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		t.start();
-	}
-	
 	public void stop(){
 		this.targetLine.stop();
 		this.targetLine.close();

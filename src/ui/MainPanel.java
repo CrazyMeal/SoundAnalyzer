@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 
 import org.jfree.chart.ChartFactory;
@@ -36,7 +37,7 @@ import ui.actionListeners.PlayActionListener;
 import audio.play.AudioLinePlayer;
 import controllers.ApplicationController;
 
-public class MainPanel extends JPanel implements ActionListener {
+public class MainPanel extends JPanel {
 	private static final long serialVersionUID = -3329086471570271813L;
 	public ArrayList<ChartPanel> charts = new ArrayList<ChartPanel>();
 	private ApplicationController appController;
@@ -47,64 +48,11 @@ public class MainPanel extends JPanel implements ActionListener {
 	}
 
 	public void addChart(File file, XYDataset dataset) {
-		JPanel newPanel = new JPanel(new BorderLayout());
-		
-		ChartPanel chartPanel = new ChartPanel(createChart(file.getName(), dataset));
-		chartPanel.setPreferredSize(new java.awt.Dimension(600, 270));
-		chartPanel.setDomainZoomable(true);
-		chartPanel.setRangeZoomable(true);
-		Border border = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createEtchedBorder());
-		chartPanel.setBorder(border);
-
-		
-		
-		charts.add(chartPanel);
-		if(charts.size() == 1)
-			this.setLayout(new GridLayout(charts.size()+1, 1));
-		else
-			this.setLayout(new GridLayout(charts.size(), 1));
-		
-		newPanel.add(this.createControlsPanel(file, chartPanel), BorderLayout.WEST);
-		newPanel.add(chartPanel);
-		
-		this.add(newPanel, charts.size()-1);
-		
-	}
-
-	private JFreeChart createChart(String fileName, XYDataset dataset) {
-
-		JFreeChart chart = ChartFactory.createXYLineChart(
-	            fileName, // chart title
-	            "Time (s)", // domain axis label
-	            "Amplitude",
-	            dataset,  // initial series
-	            PlotOrientation.VERTICAL, // orientation
-	            false, // include legend
-	            true, // tooltips?
-	            false // URLs?
-	            );
-
-		chart.setBackgroundPaint(Color.white);
-		XYPlot plot = chart.getXYPlot();
-		plot.setOrientation(PlotOrientation.VERTICAL);
-		plot.setBackgroundPaint(Color.lightGray);
-		plot.setDomainGridlinePaint(Color.white);
-		plot.setRangeGridlinePaint(Color.white);
-		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-
-		plot.setDomainCrosshairVisible(true);
-		plot.setDomainCrosshairLockedOnData(false);
-		plot.setRangeCrosshairVisible(false);
-		XYItemRenderer renderer = plot.getRenderer();
-		renderer.setSeriesPaint(0, Color.black);
-		// fix the range
-		NumberAxis axis = (NumberAxis) plot.getDomainAxis();
-		Range range = DatasetUtilities.findDomainBounds(dataset);
-		axis.setRange(range);
-		return chart;
+		ChartWorker worker = new ChartWorker(file.getName(), dataset, this, file);
+		worker.execute();
 	}
 	
-	private JPanel createControlsPanel(File file, ChartPanel chartPanel){
+	JPanel createControlsPanel(File file, ChartPanel chartPanel){
 		
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
@@ -135,12 +83,6 @@ public class MainPanel extends JPanel implements ActionListener {
 		controlsPanel.add(buttonFlacClose);*/
 		
 		return controlsPanel;
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		this.revalidate();
 	}
 	
 

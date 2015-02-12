@@ -28,7 +28,7 @@ public class DatasetUtils {
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
 		
-		double nbPoint = 100000;
+		double nbPoint = 1000000;
 		double step = datas.getDatas().length/nbPoint;
 		
 		

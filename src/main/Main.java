@@ -19,5 +19,6 @@ public class Main {
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
         demo.addChart(new File("res/sound.wav"), DatasetUtils.loadFileAndNormalize("res/sound.wav"));
+
     }
 }

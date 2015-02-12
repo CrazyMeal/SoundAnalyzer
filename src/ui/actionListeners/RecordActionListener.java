@@ -45,8 +45,7 @@ public class RecordActionListener implements ActionListener{
 			filePath = chooser.getSelectedFile().getPath();
 			rec = new AudioRecorder(chooser.getSelectedFile());
 			rec.setup();
-			out = new ByteArrayOutputStream();
-			rec.record(out);
+			rec.record();
 			((JButton)e.getSource()).setText("Stop recording");
 		}
 		recording = !recording;
