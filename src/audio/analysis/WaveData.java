@@ -29,6 +29,7 @@ public class WaveData {
 			FileInputStream fis = new FileInputStream(wavFile); 
 			arrFile = new byte[(int) wavFile.length()];  
 			fis.read(arrFile);  
+			fis.close();
 		} catch (Exception e) {  
 			System.out.println("SomeException : " + e.toString());  
 		}  
@@ -126,7 +127,7 @@ public class WaveData {
 					int SB = audioBytes[3 * i + 1];  
 					/* Second byte is LSB (low order) */  
 					int LSB = audioBytes[3 * i + 2];  
-					audioData[i] = MSB << 16 | MSB << 8 | (255 & LSB);  
+					audioData[i] = MSB << 16 | SB << 8 | (255 & LSB);  
 				}  
 			} else {  
 				for (int i = 0; i < nlengthInSamples; i++) {  

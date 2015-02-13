@@ -1,6 +1,5 @@
 package audio.record;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,8 +10,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
-
-import java.io.OutputStream;
 
 public class AudioRecorder {
 	private AudioFormat format;

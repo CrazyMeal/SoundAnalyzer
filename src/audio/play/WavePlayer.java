@@ -58,8 +58,7 @@ public class WavePlayer {
 	public int[] analyze() {
 		int[] audioData = null;
 		try {
-			int readBytes = 0;
-			while((readBytes = this.ais.read(this.byteBuffer)) != -1){
+			while((this.ais.read(this.byteBuffer)) != -1){
 			
 				if (format.getSampleSizeInBits() == 16) {
 					int nlengthInSamples = this.byteBuffer.length / 2;

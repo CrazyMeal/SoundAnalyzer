@@ -40,7 +40,6 @@ public class ChartWorker extends SwingWorker<JFreeChart, JFreeChart> {
 	
 	@Override
 	protected JFreeChart doInBackground() throws Exception {
-		System.out.println("diBack");
 
 		JFreeChart chart = ChartFactory.createXYLineChart(
 	            fileName, // chart title
@@ -70,7 +69,6 @@ public class ChartWorker extends SwingWorker<JFreeChart, JFreeChart> {
 		NumberAxis axis = (NumberAxis) plot.getDomainAxis();
 		Range range = DatasetUtilities.findDomainBounds(dataset);
 		axis.setRange(range);
-		System.out.println("test2");
 		
 		JPanel newPanel = new JPanel(new BorderLayout());
 		

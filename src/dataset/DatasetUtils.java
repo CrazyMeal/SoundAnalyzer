@@ -2,7 +2,6 @@ package dataset;
 
 import java.io.File;
 
-import org.jfree.data.xy.DefaultIntervalXYDataset;
 import org.jfree.data.xy.DefaultXYDataset;
 
 import audio.analysis.AmplitudeDatas;
@@ -28,7 +27,7 @@ public class DatasetUtils {
 		DefaultXYDataset dataset = new DefaultXYDataset();
 		int j = 0;
 		
-		double nbPoint = 1000000;
+		double nbPoint = 100000;
 		double step = datas.getDatas().length/nbPoint;
 		
 		

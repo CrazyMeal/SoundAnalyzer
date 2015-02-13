@@ -3,27 +3,15 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.kc7bfi.jflac.FLACDecoder;
-import org.kc7bfi.jflac.apps.Decoder;
-
 import ui.actionListeners.OpenActionListener;
 import ui.actionListeners.RecordActionListener;
-import audio.record.AudioRecorder;
 import controllers.ApplicationController;
-import dataset.DatasetUtils;
 
 public class SoundApplication extends ApplicationFrame {
 	private static final long serialVersionUID = -4667093160682321127L;

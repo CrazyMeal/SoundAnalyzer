@@ -25,7 +25,6 @@ public class AudioPlayer {
 	public byte[] readAStream(AudioInputStream stream){
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		
-		int totalFramesRead = 0;
 		int bytesPerFrame = stream.getFormat().getFrameSize();
 		if (bytesPerFrame == AudioSystem.NOT_SPECIFIED) {
 			bytesPerFrame = 1;
@@ -33,12 +32,7 @@ public class AudioPlayer {
 		int numBytes = 1024 * bytesPerFrame;
 		byte[] audioBytes = new byte[numBytes];
 		try {
-			int numBytesRead = 0;
-			int numFramesRead = 0;
-			while ((numBytesRead = stream.read(audioBytes)) != -1) {
-				// Calculate the number of frames actually read.
-				numFramesRead = numBytesRead / bytesPerFrame;
-				totalFramesRead += numFramesRead;
+			while ((stream.read(audioBytes)) != -1) {
 				outputStream.write(audioBytes);
 				String s =audioBytes.length + "[";
 				for(byte b : audioBytes){

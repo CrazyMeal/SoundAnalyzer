@@ -9,7 +9,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.kc7bfi.jflac.apps.Decoder;
 
-import ui.MainPanel;
 import ui.SoundApplication;
 import dataset.DatasetUtils;
 

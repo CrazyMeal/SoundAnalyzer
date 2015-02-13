@@ -9,9 +9,6 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import ui.MainPanel;
-import ui.SoundApplication;
-import audio.play.AudioLinePlayer;
-import controllers.ApplicationController;
 
 public class ExportActionListener implements ActionListener{
 	private File file;
